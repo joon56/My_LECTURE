@@ -14,17 +14,14 @@ if (practices.length !== manifest.chapters.length) failures.push('Each chapter m
 for (const practice of practices) {
   if (manifest.appendices.some(entry => entry[2] === practice.file)) failures.push(`Practice duplicated in appendices: ${practice.file}`);
   if (practice.chapter === 'ai') {
-    for (const file of ['BRIEF.md', 'SOURCES.md', 'CASES.md', 'TOOLS.md']) {
+    for (const file of ['BRIEF.md', 'TOOLS.md']) {
       try { await fs.access(path.join(root, path.dirname(practice.file), 'materials/blog', file)); }
       catch { failures.push(`Missing blog input material: ${file}`); }
     }
-    for (const file of [practice.file, 'lectures/01-ai-use/instructor-prompts.md']) {
-      const content = await fs.readFile(path.join(root, file), 'utf8');
-      for (let stage = 1; stage <= 7; stage++) {
-        const label = `S${String(stage).padStart(2, '0')}`;
-        if (!new RegExp(`^## ${label}\\.`, 'm').test(content)) failures.push(`Missing scenario ${label}: ${file}`);
-      }
-    }
+    const promptFile = 'lectures/01-ai-use/instructor-prompts.md';
+    const promptText = await fs.readFile(path.join(root, promptFile), 'utf8');
+    const prompts = parser.lexer(promptText).filter(token => token.type === 'code' && token.lang === 'text');
+    if (prompts.length !== 1) failures.push('Chapter 1 needs one shared prompt');
     continue;
   }
   const sample = path.join(root, path.dirname(practice.file), 'materials/samples.csv');

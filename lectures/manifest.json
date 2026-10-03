@@ -20,7 +20,7 @@
         ["11-plugins", "11 · Plugin을 읽고 선택하기", "lectures/01-ai-use/units/11-plugins.md"],
         ["12-evaluation", "12 · 결과를 평가하는 기준", "lectures/01-ai-use/units/12-evaluation.md"]
       ],
-      "practice": ["ai-practice", "챕터 1 실습 · 블로그 제작사와 프롬프트 비교", "lectures/01-ai-use/practice.md"]
+      "practice": ["ai-practice", "챕터 1 실습 · 함께 만드는 블로그 회사", "lectures/01-ai-use/practice.md"]
     },
     {
       "id": "git", "title": "챕터 2 강의 · Git과 경험 기록",
@@ -39,7 +39,7 @@
     }
   ],
   "appendices": [
-    ["ai-masterprompts", "강사용 · 상황별 Masterpiece Prompts", "lectures/01-ai-use/instructor-prompts.md"],
+    ["ai-masterprompts", "강사용 · 함께 입력하는 프롬프트", "lectures/01-ai-use/instructor-prompts.md"],
     ["report-map", "PDF → 강의 배치 지도", "research/report-to-lecture.md"],
     ["report-review", "원본 보고서 교정 근거", "research/report-review.md"],
     ["sycophancy", "Markdown·동조 현상 조사", "research/markdown-and-sycophancy.md"],

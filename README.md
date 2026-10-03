@@ -26,11 +26,11 @@ GitHub의 HTML 파일 화면은 웹사이트 미리보기가 아닙니다. 내�
 
 **챕터 1 강의 → [챕터 1 실습](lectures/01-ai-use/practice.md) → 챕터 2 강의 → [챕터 2 실습](lectures/02-git-and-records/practice.md)**
 
-강의에서는 개념과 강사 시연을 듣고, 챕터가 끝난 뒤 직접 수행합니다. 챕터 1은 같은 블로그 주제로 학생 프롬프트와 강사 기준본을 비교합니다. 챕터 2는 작은 CSV와 문서로 Git을 익힙니다. 두 실습 모두 입력 자료와 폴더 준비부터 설명합니다. 앞선 단원에서 파일을 만들었다고 가정하지 않습니다.
+강의에서는 개념과 강사 시연을 듣고, 챕터가 끝난 뒤 직접 수행합니다. 챕터 1은 같은 프롬프트를 함께 입력해 하위 에이전트 3개가 블로그 글을 만드는 과정을 봅니다. 챕터 2는 작은 CSV와 문서로 Git을 익힙니다. 두 실습 모두 입력 자료와 폴더 준비부터 설명합니다. 앞선 단원에서 파일을 만들었다고 가정하지 않습니다.
 
 | 챕터 | 핵심 질문 | 남기는 결과 |
 |---|---|---|
-| **01 · AI 활용법** | 무엇을 맡기고, 어떤 자료를 주며, 결과를 어떻게 믿을 것인가? | 과제 명세, 요청문, 검증 근거, 지침과 인계 기록 |
+| **01 · AI 활용법** | 무엇을 맡기고, 어떤 자료를 주며, 결과를 어떻게 믿을 것인가? | 블로그 원고, 역할별 결과 전달과 수정의 짧은 요약 |
 | **02 · Git과 경험 기록** | 무엇이 바뀌었고, 왜 바꿨으며, 내 기여를 어떻게 설명할 것인가? | 커밋 이력, 복구·협업 경험, README, 회고와 포트폴리오 |
 
 AI로 프로그램 과제를 해본 공대생을 대상으로 합니다. 공통 주제 **「AI가 만든 코드는 실행만 되면 믿어도 될까?」**로 블로그 제작사를 운영하며 기획·위임·근거 검토·인계를 연습합니다. Codex와 Claude Code를 함께 다루되, 공통 작업 원리를 먼저 설명합니다.
@@ -47,13 +47,11 @@ AI로 프로그램 과제를 해본 공대생을 대상으로 합니다. 공통 
 | 06 | [구현과 검증](lectures/01-ai-use/units/06-implementation.md) | 12 | [결과를 평가하는 기준](lectures/01-ai-use/units/12-evaluation.md) |
 | 기초 | [Markdown 읽고 고치기](lectures/01-ai-use/units/06a-markdown.md) | | |
 
-### 강사용 프롬프트와 학생 입력
+### 함께 입력하는 블로그 회사
 
-[상황별 masterpiece prompts](lectures/01-ai-use/instructor-prompts.md)에 **완성 프롬프트 7개·문장 해설·예상 행동·풀이**를 모았습니다. 학생 A 실행 → 같은 입력으로 강사 B 실행 → 자기 개선문 C 순서입니다. 기준본이 항상 이긴다고 가정하지 않습니다.
+[공통 프롬프트](lectures/01-ai-use/instructor-prompts.md) 한 개로 총괄이 하위 조사·집필·검토 **3개**의 결과를 연결합니다. 조사 결과→초고→검토 의견→필요한 수정 순서입니다.
 
-기획 → 실제 위임 조사 → 원고 → 사실 검토 → HTML → 독자 변경 → 지침·인계의 일곱 상황을 비교합니다. 이후 자기 프롬프트로 글 한 편을 이어서 제작합니다. [발주서](lectures/01-ai-use/materials/blog/BRIEF.md) · [공식 자료 요약](lectures/01-ai-use/materials/blog/SOURCES.md) · [고정 비교 입력](lectures/01-ai-use/materials/blog/CASES.md) · [Codex·Claude Code 안내](lectures/01-ai-use/materials/blog/TOOLS.md).
-
-강사용 문서는 통합 HTML 참고 자료에도 포함됩니다. 학생 A 제출 뒤 해당 상황을 공개하는 것은 수업 진행 규칙이며, 파일 접근 제한 기능은 아닙니다.
+새 폴더 하나에 [BRIEF.md](lectures/01-ai-use/materials/blog/BRIEF.md)를 넣고 시작합니다. 결과물은 article.md와 짧은 work.md입니다. 별도 비교·채점·단계별 폴더 없이 강사와 함께 관찰하고 글을 읽으며 마무리합니다. [강사 환경 확인](lectures/01-ai-use/materials/blog/TOOLS.md).
 
 ### Chapter 02 — Git과 경험 기록
 
@@ -82,8 +80,8 @@ lectures/
   manifest.json               단원 순서와 통합 HTML 구성
   01-ai-use/units/             AI 활용법 · 단원별 상세 원고
   01-ai-use/practice.md        챕터 1 강의 후 실습
-  01-ai-use/instructor-prompts.md 강사용 7개 완성 프롬프트·해설
-  01-ai-use/materials/blog/    공통 발주서·출처·고정 원고·도구 안내
+  01-ai-use/instructor-prompts.md 함께 입력할 프롬프트 한 개·강사 안내
+  01-ai-use/materials/blog/    공통 입력 BRIEF·강사 환경 안내
   01-ai-use/materials/mean-demo/ 강사 계산 오류 시연
   02-git-and-records/units/    Git과 경험 기록 · 단원별 상세 원고
   02-git-and-records/practice.md 챕터 2 강의 후 실습
