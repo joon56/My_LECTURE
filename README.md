@@ -8,7 +8,7 @@
 
 [전체 강의](lecture.html) · [단원 목차](lectures/manifest.json) · [PDF 배치 지도](research/report-to-lecture.md) · [진행 상황](VERIFICATION.md)
 
-**2개 챕터 · 21개 단원 · 강사 대본 · 실습과 풀이**
+**21개 강의 단원 · 챕터별 실습 2개 · 준비 자료와 풀이**
 
 </div>
 
@@ -23,6 +23,10 @@
 GitHub의 HTML 파일 화면은 웹사이트 미리보기가 아닙니다. 내려받은 파일을 열어주세요. 본문·검색·목차는 HTML 한 파일에 들어 있습니다. 공개본에는 원본 PDF·작업 로그·프로젝트 지침을 포함하지 않습니다. PDF 연결은 쪽수와 설명으로 남겼습니다. Markdown 링크를 열려면 폴더 구조를 유지하고, 외부 출처를 볼 때는 인터넷을 사용합니다.
 
 ## 무엇을 배우나요?
+
+**챕터 1 강의 → [챕터 1 실습](lectures/01-ai-use/practice.md) → 챕터 2 강의 → [챕터 2 실습](lectures/02-git-and-records/practice.md)**
+
+강의에서는 개념과 강사 시연을 듣고, 챕터가 끝난 뒤 직접 수행합니다. 실습 문서에는 CSV가 무엇인지, 파일을 어디에 어떻게 만드는지부터 설명합니다. 앞선 단원에서 파일을 만들었다고 가정하지 않습니다.
 
 | 챕터 | 핵심 질문 | 남기는 결과 |
 |---|---|---|
@@ -40,10 +44,12 @@ AI로 프로그램 과제를 해본 공대생을 대상으로 합니다. 연구�
 | 03 | [문제 정의와 명세](lectures/01-ai-use/units/03-specification.md) | 09 | [Skill과 반복 절차](lectures/01-ai-use/units/09-skills.md) |
 | 04 | [프롬프트 작성](lectures/01-ai-use/units/04-prompting.md) | 10 | [MCP 연결](lectures/01-ai-use/units/10-mcp.md) |
 | 05 | [맥락과 토큰 관리](lectures/01-ai-use/units/05-context.md) | 11 | [Plugin 선택](lectures/01-ai-use/units/11-plugins.md) |
-| 06 | [구현과 검증](lectures/01-ai-use/units/06-implementation.md) | 12 | [통합 실습과 평가](lectures/01-ai-use/units/12-evaluation.md) |
+| 06 | [구현과 검증](lectures/01-ai-use/units/06-implementation.md) | 12 | [결과를 평가하는 기준](lectures/01-ai-use/units/12-evaluation.md) |
 | 기초 | [Markdown 읽고 고치기](lectures/01-ai-use/units/06a-markdown.md) | | |
 
 ### Chapter 02 — Git과 경험 기록
+
+챕터 1 강의를 마쳤다면 먼저 **[챕터 1 실습](lectures/01-ai-use/practice.md)**을 진행한 뒤 아래 강의로 넘어갑니다.
 
 | 순서 | 단원 | 순서 | 단원 |
 |---|---|---|---|
@@ -54,7 +60,9 @@ AI로 프로그램 과제를 해본 공대생을 대상으로 합니다. 연구�
 
 ## 한 단원에 들어 있는 것
 
-**목표·준비 → 개념 설명 → 강사 대본과 시연 → 입력과 예상 결과 → 학생 실습·풀이 → 오개념·평가 → 다음 단원**
+**학습 목표 → 개념 설명 → 강사 대본과 시연 → 오개념·핵심 정리 → 다음 단원**
+
+학생 활동은 **[챕터 1 실습](lectures/01-ai-use/practice.md)**과 **[챕터 2 실습](lectures/02-git-and-records/practice.md)**에 모았습니다. 각 문서에서 **준비물 → 파일 생성 → 수행 순서 → 예상 결과 → 풀이·평가**를 확인합니다. 챕터 2 실습은 챕터 1에서 만든 프로그램 없이도 시작할 수 있습니다.
 
 원본 최종보고서의 내용을 사용하는 곳에는 물리적 페이지와 활용 방법을 표시했습니다. 보완이 필요한 주장은 [교정 근거](research/report-review.md)를 붙였습니다. 새로 추가한 도구 사용법·Git 실습과 원본 내용을 구분합니다.
 
@@ -65,12 +73,16 @@ lecture.html                  전체 강의 · 오프라인 열람
 lectures/
   manifest.json               단원 순서와 통합 HTML 구성
   01-ai-use/units/             AI 활용법 · 단원별 상세 원고
+  01-ai-use/practice.md        챕터 1 강의 후 실습
+  01-ai-use/materials/         챕터 1 실습 준비 자료
   02-git-and-records/units/    Git과 경험 기록 · 단원별 상세 원고
+  02-git-and-records/practice.md 챕터 2 강의 후 실습
+  02-git-and-records/materials/ 챕터 2 실습 준비 자료
 research/                     PDF 배치 지도 · 교정 · 조사 출처
 scripts/                      HTML 생성 · 문서 검사
 ```
 
-강의 기획의 전체 구조는 각 챕터의 `plan.md`, 공통 실습 입력·명령은 `practice.md`에 있습니다. **현재 상세 강의는 `lecture.html`을 읽습니다.**
+강의 구조는 각 챕터의 `plan.md`, 챕터 종료 후 수행할 활동 전체는 `practice.md`에 있습니다. **현재 상세 강의는 `lecture.html`을 읽습니다.**
 
 ## 수정하고 다시 만들기
 

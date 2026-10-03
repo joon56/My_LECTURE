@@ -1,11 +1,8 @@
 # 단원 10 · MCP로 외부 도구를 연결하고 실제 사용 확인하기
 
-## 학습 목표·준비·산출물
+## 강의 목표와 준비
 
-- 목표: MCP의 호스트·클라이언트·서버 역할을 설명하고 등록·연결·호출·판정 단계를 구별한다.
-- 준비: 도구 실행 결과를 읽는 법, 공식 문서에 접근할 브라우저. CLI 설치·계정 조건은 수업 전에 확인한다.
-- 산출물: 연결 설계, 실제 수행 범위가 표시된 조회 기록, 문서 근거 대조.
-- 완료 기준: 학생이 서버 이름이 보인다는 사실과 답변 근거를 조회했다는 사실을 구별한다.
+MCP의 호스트·클라이언트·서버 역할과 등록·연결·호출·판정의 차이를 이해한다. 강사는 공개 문서 조회의 구조와 실패 사례를 설명한다. 설정 명령 실행은 챕터말 선택 확장에서 다룬다.
 
 > [!NOTE]
 > **PDF 연결 | 새로 추가**
@@ -60,39 +57,9 @@ Codex 기본 사용자 설정 → ~/.codex/config.toml 등
 Claude 프로젝트 공유 설정 → 프로젝트 .mcp.json 등
 ```
 
-위는 위치 설명이다. 서로 다른 제품의 설정 파일을 통째로 복사하거나 전역 파일을 덮어쓰라는 절차가 아니다. 기존 서버 이름·범위와 설치 버전 도움말을 먼저 확인한다. 아래 `--help`, `list`는 확인용이고 `add`는 등록 변경이다.
+위는 위치 설명이다. 서로 다른 제품의 설정 파일을 통째로 복사하거나 전역 파일을 덮어쓰라는 절차가 아니다. 기존 서버 이름·범위와 설치 버전 도움말을 먼저 확인한다. 명령에서 `--help`, `list`는 확인용이고 `add`는 등록 변경이다.
 
-**Codex CLI의 공식 등록 예**
-
-```powershell
-codex --version
-codex mcp --help
-codex mcp list
-```
-
-설정 범위를 확인한 뒤 연결이 필요한 실습 환경에서 등록한다.
-
-```powershell
-codex mcp add openaiDeveloperDocs --url https://developers.openai.com/mcp
-codex mcp list
-```
-
-기본 사용자 설정에 영향을 줄 수 있다. 프로젝트 범위 지원과 해제 방법은 [Codex MCP 문서](https://learn.chatgpt.com/docs/extend/mcp?surface=cli) 및 설치 버전의 도움말로 확인한다.
-
-**Claude Code CLI의 공식 등록 예**
-
-```powershell
-claude --version
-claude mcp --help
-claude mcp list
-```
-
-```powershell
-claude mcp add --transport http openaiDeveloperDocs https://developers.openai.com/mcp
-claude mcp get openaiDeveloperDocs
-```
-
-공식 문서상 기본 등록 범위는 local이며 `--scope project`는 프로젝트 공유 설정에 사용한다. 실제 목적에 맞게 범위를 선택한다. 상태는 `/mcp`에서도 확인할 수 있다. 해제는 같은 이름·범위를 확인한 후 `claude mcp remove openaiDeveloperDocs`로 수행하는 예가 문서화되어 있다. [Claude MCP 관리](https://code.claude.com/docs/en/mcp).
+강사 설명: `list`는 상태 확인, `add`는 등록 변경이다. Codex의 기본 사용자 설정과 Claude Code의 local·project 범위는 다르다. 정확한 등록·해제 방법은 설치 버전의 공식 문서와 도움말을 기준으로 확인한다. 명령과 수행 기록은 챕터말 선택 확장에 모았다.
 
 **학생 질문**: “명령을 지금 모두 실행해야 하나요?”
 
@@ -113,20 +80,7 @@ claude mcp get openaiDeveloperDocs
 설정은 변경하지 마.
 ```
 
-**기록 양식 — 실제 호출 후 채운다**
-
-```markdown
-# MCP 조회 확인
-
-- 호스트·버전:
-- 등록한 서버 이름·범위:
-- 연결 상태:
-- 실제 호출한 도구와 질의:
-- 반환된 문서 URL:
-- 답변이 근거로 쓴 원문 내용:
-- 직접 대조한 결과:
-- 미확인·실패:
-```
+**확인할 증거:** 호스트·버전, 이름·범위, 연결 상태, 실제 도구·질의, 반환 URL, 답변과 원문의 대조 결과다.
 
 기대 산출물은 적용 범위 설명, 그 설명을 지지하는 공식 원문 링크, 자기 환경에서 추가 확인할 항목이다. 정확한 도구 이름·화면은 버전별로 달라질 수 있어 가짜 호출 로그를 미리 적지 않는다. 결과에 문서 링크가 있어도 실제 호출 증거가 없으면 “링크 제시, MCP 사용 여부 미확인”으로 남긴다.
 
@@ -152,16 +106,12 @@ claude mcp get openaiDeveloperDocs
 
 **예상 답**: 쓰기 영향은 줄지만 잘못된 정보 해석이나 부적절한 질의 전송까지 없어지는 것은 아니다. 이 수업은 공개 문서 질문만 사용한다. 외부 자료 속 지시문을 사용자 명령으로 승격하지 않는다.
 
-## 학생 실습·예시 답안·채점
+## 강의 요점과 근거
 
-상황 A: 서버 등록 성공, 연결 시간 초과. 상황 B: 연결 성공, AI가 기억만으로 답함. 상황 C: 문서 호출 성공, 해당 조건을 빠뜨린 답변. 각 상황의 완료 범위와 다음 행동을 적는다.
-
-예시 답안: A는 등록만 확인, 연결 실패 원인 조사. B는 연결만 확인, 실제 조회 요청·호출 기록 확인. C는 조회 확인, 답변 해석 교정. 세 상황 모두 “전체 검증 완료”는 부정확하다.
-
-채점은 구성 요소 설명, 설정 범위 이해, 단계별 증거 구분, 원문 대조로 한다. 설치 기능 수나 성공 화면의 유무만으로 점수를 주지 않는다.
-
-## 완료 확인·다음 단원·근거
-
-학생이 구조도를 설명하고 실제 수행 범위를 기록하면 완료다. 다음은 [Plugin](11-plugins.md). Skill과 MCP 등을 묶은 배포 단위를 읽는다.
+강의 요점: 등록·연결·호출·원문 대조는 별개다. 성공한 단계까지만 보고한다.
 
 [MCP 공식 구조](https://modelcontextprotocol.io/docs/2026-07-28/learn/architecture), [Docs MCP](https://developers.openai.com/learn/docs-mcp), [Codex MCP](https://learn.chatgpt.com/docs/extend/mcp?surface=cli), [Claude MCP](https://code.claude.com/docs/en/mcp). 제품 문서 확인일 2026-10-03. 이 단원 제작에서는 등록 명령 실행·설정 변경·서버 호출을 수행하지 않았다.
+
+## 챕터말 실습
+
+학생 활동·파일 준비·풀이·채점은 [챕터 1 실습](../practice.md)에 모았다. 챕터 1 강의를 모두 읽은 뒤 진행한다.

@@ -8,7 +8,21 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const parser = new Marked();
 const manifest = JSON.parse(await fs.readFile(path.join(root, 'lectures/manifest.json'), 'utf8'));
 const units = manifest.chapters.flatMap(c => c.units.map(([id, title, file]) => ({ id: `${c.id}-${id}`, title, file })));
+const practices = manifest.chapters.filter(c => c.practice).map(c => ({ id: c.practice[0], file: c.practice[2], chapter: c.id }));
 const failures = [];
+if (practices.length !== manifest.chapters.length) failures.push('Each chapter must have one practice document after its lectures');
+for (const practice of practices) {
+  if (manifest.appendices.some(entry => entry[2] === practice.file)) failures.push(`Practice duplicated in appendices: ${practice.file}`);
+  const sample = path.join(root, path.dirname(practice.file), 'materials/samples.csv');
+  try {
+    const lines = (await fs.readFile(sample, 'utf8')).replace(/^\uFEFF/, '').trim().split(/\r?\n/);
+    const rows = lines.slice(1).map(line => line.split(',').map(Number));
+    if (lines[0] !== 'time_ms,voltage_mv' || JSON.stringify(rows) !== JSON.stringify([[0, 1000], [1000, 2000], [2000, 3000]])) failures.push(`Starter CSV differs from the lesson's expected values: ${sample}`);
+  } catch (error) {
+    if (error.code !== 'ENOENT') throw error;
+    failures.push(`Missing starter CSV: ${sample}`);
+  }
+}
 const files = [];
 async function collect(dir) {
   for (const entry of await fs.readdir(dir, { withFileTypes: true })) {
@@ -41,15 +55,24 @@ for (const file of files) {
 }
 for (const unit of units) {
   const content = await fs.readFile(path.join(root, unit.file), 'utf8');
-  if (content.length < 4000) failures.push(`Unit too short for detailed design: ${unit.file}`);
   if (!content.includes('PDF 연결')) failures.push(`Missing PDF note: ${unit.file}`);
   if (!content.includes('장면 4')) failures.push(`Missing teaching scene: ${unit.file}`);
+  const headings = parser.lexer(content).filter(token => token.type === 'heading').map(token => token.text);
+  if (headings.some(title => /^(?:학생 (?:실습|활동)|실습.*(?:풀이|채점)|제출물|제출 기준|채점 기준)/.test(title))) failures.push(`Student practice section remains in lecture: ${unit.file}`);
 }
 const html = await fs.readFile(path.join(root, 'lecture.html'), 'utf8');
 const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(m => m[1]);
 const idSet = new Set(ids);
 if (ids.length !== idSet.size) failures.push('Duplicate HTML IDs');
 for (const unit of units) if (!idSet.has(unit.id)) failures.push(`Missing unit in HTML: ${unit.id}`);
+const expectedOrder = manifest.chapters.flatMap(chapter => [...chapter.units.map(([id]) => `${chapter.id}-${id}`), ...(chapter.practice ? [chapter.practice[0]] : [])]);
+const actualOrder = [...html.matchAll(/<details class="unit" id="([^"]+)"/g)].map(match => match[1]).filter(id => expectedOrder.includes(id));
+if (JSON.stringify(expectedOrder) !== JSON.stringify(actualOrder)) failures.push('HTML lecture/practice sequence does not match the chapter flow');
+for (const practice of practices) {
+  if (!idSet.has(practice.id)) failures.push(`Practice missing from HTML: ${practice.file}`);
+  const content = await fs.readFile(path.join(root, practice.file), 'utf8');
+  if (!content.includes('준비') || !content.includes('예상') || !content.includes('풀이')) failures.push(`Practice needs preparation, expected results and answers: ${practice.file}`);
+}
 for (const [, href] of html.matchAll(/href="([^"]+)"/g)) {
   if (/^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(href)) continue;
   if (href.startsWith('#')) {
@@ -69,5 +92,5 @@ try {
   if (error.code !== 'ENOENT') throw error;
   pdfIncluded = false;
 }
-console.log(JSON.stringify({ units: units.length, markdownDocuments: files.length, localMarkdownLinks: links, htmlIds: ids.length, pdfIncluded, pdfUnchanged, failures }, null, 2));
+console.log(JSON.stringify({ units: units.length, practices: practices.length, markdownDocuments: files.length, localMarkdownLinks: links, htmlIds: ids.length, pdfIncluded, pdfUnchanged, failures }, null, 2));
 if (failures.length) process.exitCode = 1;

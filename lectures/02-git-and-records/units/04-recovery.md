@@ -4,11 +4,11 @@
 > **PDF 연결 | 새로 추가**
 > 원본 PDF에는 Git 복구 명령이나 restore·revert 구분이 없다. 이 단원은 변경 상태와 보존 대상을 먼저 판단하도록 강사가 추가했다. 명령의 실제 의미는 Git 공식 문서를 따른다.
 
-## 목표·준비·산출물
+## 목표·강의 준비·핵심 요점
 
 - 목표: 선택 취소, 미커밋 내용 폐기, 이미 기록된 변경 상쇄를 구분한다.
-- 준비: 첫 커밋 이후이며 단원 2의 reviewed까지 기록된 깨끗한 연습 저장소.
-- 산출물: 세 복구 상황의 전후 상태와 잘못된 커밋·revert 커밋 확인 기록.
+- 강의 준비: 작업 파일·index·커밋의 구분. 학생 실습 저장소는 아직 필요 없다.
+- 핵심 요점: 선택 취소·내용 폐기·새 커밋 상쇄의 차이와 보존 범위.
 - 제한: `scratch.txt`만 내용 폐기 대상으로 사용한다. 실제 연구 파일을 복구 실험에 쓰지 않는다.
 
 ## 개념 설명
@@ -25,6 +25,8 @@
 
 ## 강사 진행 장면
 
+강사가 설명·판서·시연한다. 학생은 상태와 의미를 읽는다. 명령 따라하기·파일 수정·제출은 8단원 강의를 마친 뒤 [통합 실습](../practice.md)에서 진행한다.
+
 ### 장면 1 · ‘취소’의 뜻부터 확인
 
 **강사 발화:** “scratch.txt를 잘못 add했습니다. 이때 글 자체도 버려야 하나요? 다음 커밋에서만 빼고 싶을 수도 있겠죠. 원하는 마지막 상태를 먼저 말해봅시다.”
@@ -37,9 +39,9 @@
 
 ### 장면 2 · 실제 폐기 전 멈추기
 
-**강사 발화:** “다음 명령은 수업용 scratch.txt의 미커밋 수정을 버립니다. 지금 파일 이름과 diff를 확인하세요. 보존해야 하는 내용이라면 실행하지 말고 별도로 남긴 뒤 판단합니다.”
+**강사 발화:** “제가 보여드릴 명령은 수업용 scratch.txt의 미커밋 수정을 버립니다. 대상 파일과 diff를 먼저 확인했습니다. 보존해야 하는 내용이라면 실행 전 별도로 남겨야 합니다.”
 
-**화면:** scratch.txt의 `temporary edit`과 diff를 보여준다. 학생이 해당 파일을 확인한 다음에만 기본 restore를 시연한다.
+**화면:** scratch.txt의 `temporary edit`과 diff를 보여준다. 강사가 대상과 폐기할 내용을 설명한 다음 기본 restore를 시연한다.
 
 **예상 학생 답:** “이 파일은 연습용이며 temporary edit을 버려도 됩니다. README나 CSV는 대상이 아닙니다.”
 
@@ -59,62 +61,19 @@
 
 **예상 학생 답:** “잘못된 기록을 지운 게 아니라 그 변경을 상쇄한 새 커밋을 만들었습니다. 현재 값은 2입니다.”
 
-## 함께 풀 사례 A · 스테이징 취소와 내용 폐기
+## 읽는 사례 · 복구 후 무엇이 남는가
 
-[연속 실습 4](../practice.md)와 같은 순서다. scratch.txt를 `temporary edit`으로 바꾸고 저장한다.
+강사가 첫 커밋 이후 깨끗한 시연 저장소를 준비한다. scratch.txt의 기록된 내용은 `keep`이다. 아래는 서로 다른 목적의 명령 예이며 학생 실행 순서는 [통합 실습 4~5](../practice.md)에 있다.
 
-```shell
-git status
-git add scratch.txt
-git diff --staged -- scratch.txt
-git restore --staged -- scratch.txt
-git status --short
-git diff -- scratch.txt
-```
+| 상황 | 명령 예 | 바뀌는 영역·결과 |
+|---|---|---|
+| temporary edit을 add했지만 선택만 취소 | `git restore --staged -- scratch.txt` | index를 HEAD에 맞춤. 작업 파일의 temporary edit 유지 |
+| 선택 취소 뒤 연습 수정을 폐기 | `git restore -- scratch.txt` | working tree를 index에 맞춤. 이 시점에는 keep 복원 |
+| Mean 2.5를 방금 커밋한 오류를 상쇄 | `git revert --no-edit HEAD` | Mean 2로 돌아오는 새 커밋. 오류 커밋도 이력에 유지 |
 
-기대는 ` M scratch.txt`와 작업 파일의 temporary edit 유지다. staged diff에서는 변경이 빠진다. 학생에게 편집기 파일도 직접 열게 한다. status만 보고 내용까지 추측하지 않는다.
+**기본 restore는 지정한 scratch.txt의 미커밋 수정을 버린다.** 다른 파일에 확대 적용하지 않는다. `--`는 뒤를 경로로 해석하는 구분자다. `--no-edit`는 revert의 기본 커밋 메시지를 사용한다.
 
-**주의: 다음 명령은 수업용 scratch.txt의 미커밋 수정 `temporary edit`을 버린다. 해당 파일이 맞고 내용을 폐기해도 되는지 확인한 뒤 실행한다.**
-
-```shell
-git restore -- scratch.txt
-git status --short
-```
-
-기대는 scratch.txt가 `keep`으로 돌아가고 변경 표시가 없어지는 것이다. 기본 restore가 읽는 원본은 index다. 방금 스테이징을 취소했기 때문에 이번에는 index와 HEAD가 같다.
-
-## 함께 풀 사례 B · 방금 만든 오류 커밋 상쇄
-
-먼저 status가 깨끗한지 확인한다. README의 `Mean: 2`만 `Mean: 2.5`로 고치고 CSV는 보존한다.
-
-```shell
-git add README.md
-git commit -m "docs: introduce incorrect mean for recovery exercise"
-git log --oneline -3
-git show HEAD -- README.md
-```
-
-HEAD가 방금 만든 오류 커밋인지 확인한 뒤 실행한다.
-
-```shell
-git revert --no-edit HEAD
-git log --oneline -3
-git show HEAD:README.md
-git status
-```
-
-기대: Mean은 2로 돌아오며 오류 커밋과 새 상쇄 커밋이 함께 보인다. `--no-edit`는 기본 revert 메시지를 사용해 편집기 입력 단계를 생략한다. 커밋 해시·날짜는 학생 실행에서 확인한다. 교재의 기대 결과를 자신의 관찰인 것처럼 복사하지 않는다.
-
-## 학생 활동 · 명령 전에 답하기
-
-1. A 실행 전에 바뀔 영역을 적는다. `--staged`는 index, 기본 restore는 working tree라고 명시한다.
-2. A의 선택 취소 직후 실제 파일 내용과 두 diff를 대조한다.
-3. 폐기 명령 직전 대상 파일과 버릴 내용을 한 문장으로 쓴다. 필요하면 강사에게 확인받는다.
-4. B에서 오류 커밋의 실제 해시와 변경 줄을 기록한다. 손계산 결과도 적는다.
-5. revert 뒤 새 해시·Mean 값·원래 오류 커밋 존재 여부를 확인한다.
-6. “되돌리기 완료”를 내용·이력·작업 상태 세 항목으로 풀어 쓴다.
-
-**풀이 기준:** 선택 취소 뒤 temporary edit이 남음, 폐기 뒤 keep 복원, revert 뒤 Mean 2, 오류 이력 유지, 새 커밋 추가를 모두 관찰해야 한다. 한 항목이 예상과 다르면 다음 명령을 더 실행하지 말고 status·diff·show로 현재 상태부터 설명한다.
+세 번째 경우도 HEAD가 방금 만든 오류 커밋인지 log·show로 확인해야 한다. 커밋 해시는 실행마다 달라진다. 값의 정답은 CSV의 손계산 평균 2V로 판단하고, 복구 여부는 현재 내용·이력·작업 상태를 함께 보고 판단한다.
 
 ## 질문·오해
 
@@ -123,8 +82,10 @@ git status
 - **revert하면 늘 성공하나요?** 이후 변경과 충돌할 수 있다. 이번 사례가 단순한 이유는 오류 직후 바로 상쇄하기 때문이다.
 - **AI가 강제 초기화를 권했어요.** 사라질 내용과 공유 여부부터 확인한다. 기본 수업 절차에 강제 초기화·강제 push를 추가하지 않는다.
 
-## 통과 기준·다음·출처
+## 핵심 요점·다음·출처
 
-학생이 원하는 최종 상태를 먼저 말하고 세 복구 방식을 구별하면 통과다. 다음 [05 · 브랜치](05-branches.md)에서는 작업 흐름을 나눠 실험하고 합친다.
+복구는 변경 위치·내용 보존 여부·공유 상태를 먼저 판단한다. 선택 취소와 내용 폐기, 상쇄 커밋은 결과가 다르다. 다음 [05 · 브랜치](05-branches.md)에서는 작업 흐름을 나눠 실험하고 합친다.
 
 공식 문서 확인일: 2026-10-03. [git restore](https://git-scm.com/docs/git-restore), [git revert](https://git-scm.com/docs/git-revert), [git log](https://git-scm.com/docs/git-log). 기존 로컬 검증은 [sources.md](../sources.md). 이 문서는 실행 절차와 예상 결과이며 학생 수행을 미리 완료로 기록하지 않는다.
+
+학생 활동·명령 실행·풀이·제출 기준은 8단원 강의 뒤 [챕터 2 통합 실습](../practice.md)에서 진행한다.

@@ -13,9 +13,14 @@ const esc = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<'
 const slug = value => value.toLowerCase().replace(/<[^>]*>/g, '').replace(/[^\p{L}\p{N}\s_-]/gu, '').replace(/\s/g, '-');
 const docs = [];
 for (const chapter of manifest.chapters) {
-  for (const [key, title, file] of chapter.units) docs.push({ id: `${chapter.id}-${key}`, title, file, chapter: chapter.id });
+  for (const [key, title, file] of chapter.units) docs.push({ id: `${chapter.id}-${key}`, title, file, chapter: chapter.id, kind: 'lecture' });
+  const [id, title, file] = chapter.practice;
+  docs.push({ id, title, file, chapter: `${chapter.id}-practice`, kind: 'practice' });
 }
-for (const [id, title, file] of manifest.appendices) docs.push({ id, title, file, chapter: 'references' });
+for (const [id, title, file] of manifest.appendices) docs.push({ id, title, file, chapter: 'references', kind: 'reference' });
+const lectureCount = docs.filter(doc => doc.kind === 'lecture').length;
+const practiceCount = docs.filter(doc => doc.kind === 'practice').length;
+const contentsLabel = `${lectureCount}개 강의 단원 · ${practiceCount}개 실습 · 참고 자료 ${manifest.appendices.length}개`;
 const byPath = new Map(docs.map(doc => [path.resolve(root, doc.file), doc]));
 
 for (const doc of docs) {
@@ -68,13 +73,15 @@ for (const doc of docs) {
 }
 
 const toc = chapter => docs.filter(d => d.chapter === chapter).map(d => `<a data-unit-link="${d.id}" href="#${d.id}">${esc(d.title)}</a>`).join('');
-const section = doc => `<details class="unit" id="${doc.id}" data-chapter="${doc.chapter}"${doc === docs[0] ? ' open' : ''}>
-<summary><span>${esc(doc.title)}</span><small>${doc.chapter === 'references' ? '참고 자료' : '설명 · 대본 · 실습 · 풀이'}</small></summary>
+const section = doc => `<details class="unit" id="${doc.id}" data-chapter="${doc.chapter}" data-kind="${doc.kind}"${doc === docs[0] ? ' open' : ''}>
+<summary><span>${esc(doc.title)}</span><small>${doc.kind === 'reference' ? '참고 자료' : doc.kind === 'practice' ? '챕터 강의 후 진행 · 준비 → 수행 → 확인 → 풀이' : '강의 · 개념 설명 · 강사 대본 · 시연'}</small></summary>
 <div class="unit-body"><div class="unit-tools"><a href="${encodeURI(doc.file)}">Markdown 원문</a><a href="#top">목차로</a></div>
 <nav class="local-toc" aria-label="${esc(doc.title)} 절 목차">${doc.headings.map(h => `<a href="#${esc(h.id)}">${esc(h.title)}</a>`).join('')}</nav>
 ${doc.html}
 </div></details>`;
-const chapterHtml = manifest.chapters.map(ch => `<section class="chapter" id="chapter-${ch.id}"><div class="chapter-heading"><span>${ch.id === 'ai' ? '01' : '02'}</span><div><h2>${esc(ch.title)}</h2><p>${esc(ch.description)}</p></div></div>${docs.filter(d => d.chapter === ch.id).map(section).join('')}</section>`).join('');
+const chapterHtml = manifest.chapters.map(ch => `<section class="chapter" id="chapter-${ch.id}"><div class="chapter-heading"><span>${ch.id === 'ai' ? '01' : '02'}</span><div><h2>${esc(ch.title)}</h2><p>${esc(ch.description)} 학생 실습은 이 챕터의 강의를 모두 들은 뒤 진행합니다.</p></div></div>${docs.filter(d => d.chapter === ch.id).map(section).join('')}</section>
+<section class="chapter practice-block" id="chapter-${ch.id}-practice"><div class="chapter-heading"><span>실습</span><div><h2>${esc(ch.practice[1])}</h2><p>준비 파일과 만드는 방법부터 시작합니다. 앞선 단원에서 실습을 마쳤다고 가정하지 않습니다.</p></div></div>${docs.filter(d => d.chapter === `${ch.id}-practice`).map(section).join('')}</section>`).join('');
+const chapterNav = manifest.chapters.map(ch => `<div class="nav-label">${esc(ch.title)}</div>${toc(ch.id)}<div class="nav-label">${ch.id === 'ai' ? '챕터 1' : '챕터 2'} 실습</div>${toc(`${ch.id}-practice`)}`).join('');
 const html = `<!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(manifest.title)} · 전체 강의</title>
@@ -86,12 +93,12 @@ const html = `<!doctype html>
 </style></head><body>
 <a class="skip" href="#main">본문으로 이동</a><div class="layout">
 <aside><a class="brand" href="#top">AI로 일하고,<br>Git으로 남기기</a><div class="subtle">공대생을 위한 전체 강의</div>
-<label class="search-label" for="search">단원 제목·본문 검색</label><input id="search" type="search" placeholder="예: 프롬프트, stage, PDF"><div id="search-count" class="search-count" aria-live="polite">21개 단원 · 참고 자료 7개</div>
-<nav class="toc" aria-label="전체 강의 목차"><div class="nav-label">CHAPTER 01 · AI 활용법</div>${toc('ai')}<div class="nav-label">CHAPTER 02 · Git과 경험 기록</div>${toc('git')}<div class="nav-label">원본과 참고 자료</div>${toc('references')}</nav></aside>
+<label class="search-label" for="search">강의·실습 본문 검색</label><input id="search" type="search" placeholder="예: 프롬프트, stage, PDF"><div id="search-count" class="search-count" aria-live="polite">${esc(contentsLabel)}</div>
+<nav class="toc" aria-label="전체 강의 목차">${chapterNav}<div class="nav-label">원본과 참고 자료</div>${toc('references')}</nav></aside>
 <main id="main"><header class="hero" id="top"><div class="eyebrow">ENGINEERING · AI · GIT · RECORDS</div><h1>${esc(manifest.title)}</h1><p class="lead">과제를 구체화하고, AI와 구현하고, 증거로 검증하고,<br>설명할 수 있는 경험으로 남기는 수업.</p><div class="chips"><span>2개 챕터 · 21개 단원</span><span>강사 대본 · 시연 · 실습 · 풀이</span><span>Codex + Claude Code</span></div><div class="hero-links"><a href="#report-map">PDF 배치 지도</a>${hasPdf ? `<a href="${encodeURI('유민준_최종보고서.pdf')}">원본 보고서</a>` : '<span>원본 PDF 별도 보관 · 쪽수로 연결</span>'}<a href="README.md">프로젝트 안내</a><a href="${statusFile}">검증·진행 상태</a></div></header>
-<section class="intro-panel"><h2>이 강의를 읽는 방법</h2><p>단원 제목을 누르면 상세 원고가 펼쳐집니다. <strong>개념 설명 → 강사 대본 → 예제·실습 → 풀이·평가</strong> 순서로 읽습니다. 목차 링크는 해당 단원을 자동으로 펼칩니다.</p><p><strong>노란색 PDF 연결 상자</strong>는 원본 페이지, 수업에 넣을 위치, 교정할 내용입니다. “새로 추가”는 이번에 보강한 실용 내용입니다. 대본·예상 출력은 교육 설계이며 실제 학생 수행 결과와 구분합니다.</p><p>자료 기준 ${esc(manifest.date)} · 단원 구성과 난이도는 검토용 상세 원고입니다. 본문은 오프라인으로 읽을 수 있습니다. ${hasPdf ? 'PDF·원문 링크는 함께 받은 폴더에서 열립니다.' : '공개본에는 원본 PDF·내부 작업 기록·프로젝트 지침을 포함하지 않습니다. PDF 연결 상자에는 쪽수와 활용 설명을 남겼습니다.'}</p></section>
+<section class="intro-panel"><h2>진행 순서</h2><p><strong><a href="#chapter-ai">챕터 1 강의</a> → <a href="#ai-practice">챕터 1 실습</a> → <a href="#chapter-git">챕터 2 강의</a> → <a href="#git-practice">챕터 2 실습</a></strong></p><p>강의에서는 개념 설명과 강사 시연을 듣습니다. 학생이 파일을 만들고 실행하는 활동은 챕터 말 실습에서 진행합니다. 각 실습은 준비물·파일 생성·수행 순서·예상 결과·풀이를 한 문서에 모았습니다.</p><p><strong>노란색 PDF 연결 상자</strong>는 원본 페이지, 수업에 넣을 위치, 교정할 내용입니다. “새로 추가”는 이번에 보강한 실용 내용입니다. 대본·예상 출력은 교육 설계이며 실제 학생 수행 결과와 구분합니다.</p><p>자료 기준 ${esc(manifest.date)} · 본문은 오프라인으로 읽을 수 있습니다. ${hasPdf ? 'PDF·원문·실습 자료 링크는 함께 받은 폴더에서 열립니다.' : '공개본에는 원본 PDF·내부 작업 기록·프로젝트 지침을 포함하지 않습니다. PDF 연결에는 쪽수와 활용 설명을 남겼으며 실습용 자료는 포함합니다.'}</p></section>
 <div class="controls"><button id="expand" type="button">모두 펼치기</button><button id="collapse" type="button">모두 접기</button><button id="clear" type="button">검색 초기화</button><button id="print" type="button">전체 인쇄</button></div><p id="no-results" hidden>일치하는 단원이 없습니다. 다른 단어로 검색하거나 검색을 초기화하세요.</p>
-${chapterHtml}<section class="chapter" id="chapter-references"><div class="chapter-heading"><span>＋</span><div><h2>원본 연결과 참고 자료</h2><p>배치 지도, 교정 근거, 공통 실습, 공식 출처.</p></div></div>${docs.filter(d => d.chapter === 'references').map(section).join('')}</section>
+${chapterHtml}<section class="chapter" id="chapter-references"><div class="chapter-heading"><span>＋</span><div><h2>원본 연결과 참고 자료</h2><p>배치 지도, 교정 근거, 공식 출처.</p></div></div>${docs.filter(d => d.chapter === 'references').map(section).join('')}</section>
 <footer>Markdown 원문에서 생성한 통합 강의입니다. 수정 후 <code>npm run build</code>로 다시 만듭니다. <a href="#top">맨 위로</a> · <a href="https://github.com/joon56/My_LECTURE">GitHub 저장소</a></footer></main></div>
 <script>
 const units = [...document.querySelectorAll('.unit')];
@@ -110,7 +117,7 @@ function filterUnits() {
   for (const link of links) link.hidden = document.getElementById(link.dataset.unitLink).hidden;
   for (const chapter of document.querySelectorAll('.chapter')) chapter.hidden = ![...chapter.querySelectorAll('.unit')].some(unit => !unit.hidden);
   document.getElementById('no-results').hidden = count > 0;
-  document.getElementById('search-count').textContent = query ? count + '개 문서 일치' : '21개 단원 · 참고 자료 7개';
+  document.getElementById('search-count').textContent = query ? count + '개 문서 일치' : ${JSON.stringify(contentsLabel)};
 }
 function reveal(hash) {
   let id;
@@ -136,4 +143,4 @@ document.addEventListener('click', event => { const link = event.target.closest(
 if (location.hash) reveal(location.hash);
 </script></body></html>`;
 await fs.writeFile(path.join(root, 'lecture.html'), html, 'utf8');
-console.log(JSON.stringify({ output: 'lecture.html', units: docs.filter(d => d.chapter !== 'references').length, references: manifest.appendices.length, bytes: Buffer.byteLength(html) }));
+console.log(JSON.stringify({ output: 'lecture.html', units: lectureCount, practices: practiceCount, references: manifest.appendices.length, bytes: Buffer.byteLength(html) }));
