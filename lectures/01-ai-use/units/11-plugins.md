@@ -133,4 +133,4 @@ Claude Code는 `.claude-plugin/plugin.json` manifest와 Skill·agent·hook·MCP 
 
 ## 챕터말 실습
 
-학생 활동·파일 준비·풀이·채점은 [챕터 1 실습](../practice.md)에 모았다. 챕터 1 강의를 모두 읽은 뒤 진행한다.
+챕터 1 강의를 마친 뒤 [블로그 제작사 실습](../practice.md)을 진행한다. 제공 자료와 로컬 HTML만으로 가능한 작업을 확인하고 Plugin 도입 이유·권한·비용을 설명한다.

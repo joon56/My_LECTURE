@@ -26,14 +26,14 @@ GitHub의 HTML 파일 화면은 웹사이트 미리보기가 아닙니다. 내�
 
 **챕터 1 강의 → [챕터 1 실습](lectures/01-ai-use/practice.md) → 챕터 2 강의 → [챕터 2 실습](lectures/02-git-and-records/practice.md)**
 
-강의에서는 개념과 강사 시연을 듣고, 챕터가 끝난 뒤 직접 수행합니다. 실습 문서에는 CSV가 무엇인지, 파일을 어디에 어떻게 만드는지부터 설명합니다. 앞선 단원에서 파일을 만들었다고 가정하지 않습니다.
+강의에서는 개념과 강사 시연을 듣고, 챕터가 끝난 뒤 직접 수행합니다. 챕터 1은 같은 블로그 주제로 학생 프롬프트와 강사 기준본을 비교합니다. 챕터 2는 작은 CSV와 문서로 Git을 익힙니다. 두 실습 모두 입력 자료와 폴더 준비부터 설명합니다. 앞선 단원에서 파일을 만들었다고 가정하지 않습니다.
 
 | 챕터 | 핵심 질문 | 남기는 결과 |
 |---|---|---|
 | **01 · AI 활용법** | 무엇을 맡기고, 어떤 자료를 주며, 결과를 어떻게 믿을 것인가? | 과제 명세, 요청문, 검증 근거, 지침과 인계 기록 |
 | **02 · Git과 경험 기록** | 무엇이 바뀌었고, 왜 바꿨으며, 내 기여를 어떻게 설명할 것인가? | 커밋 이력, 복구·협업 경험, README, 회고와 포트폴리오 |
 
-AI로 프로그램 과제를 해본 공대생을 대상으로 합니다. 연구실의 데이터 처리 과제를 **합성 측정 CSV**로 연습합니다. Codex와 Claude Code를 함께 다루되, 공통 작업 원리를 먼저 설명합니다.
+AI로 프로그램 과제를 해본 공대생을 대상으로 합니다. 공통 주제 **「AI가 만든 코드는 실행만 되면 믿어도 될까?」**로 블로그 제작사를 운영하며 기획·위임·근거 검토·인계를 연습합니다. Codex와 Claude Code를 함께 다루되, 공통 작업 원리를 먼저 설명합니다.
 
 ### Chapter 01 — AI 활용법
 
@@ -46,6 +46,14 @@ AI로 프로그램 과제를 해본 공대생을 대상으로 합니다. 연구�
 | 05 | [맥락과 토큰 관리](lectures/01-ai-use/units/05-context.md) | 11 | [Plugin 선택](lectures/01-ai-use/units/11-plugins.md) |
 | 06 | [구현과 검증](lectures/01-ai-use/units/06-implementation.md) | 12 | [결과를 평가하는 기준](lectures/01-ai-use/units/12-evaluation.md) |
 | 기초 | [Markdown 읽고 고치기](lectures/01-ai-use/units/06a-markdown.md) | | |
+
+### 강사용 프롬프트와 학생 입력
+
+[상황별 masterpiece prompts](lectures/01-ai-use/instructor-prompts.md)에 **완성 프롬프트 7개·문장 해설·예상 행동·풀이**를 모았습니다. 학생 A 실행 → 같은 입력으로 강사 B 실행 → 자기 개선문 C 순서입니다. 기준본이 항상 이긴다고 가정하지 않습니다.
+
+기획 → 실제 위임 조사 → 원고 → 사실 검토 → HTML → 독자 변경 → 지침·인계의 일곱 상황을 비교합니다. 이후 자기 프롬프트로 글 한 편을 이어서 제작합니다. [발주서](lectures/01-ai-use/materials/blog/BRIEF.md) · [공식 자료 요약](lectures/01-ai-use/materials/blog/SOURCES.md) · [고정 비교 입력](lectures/01-ai-use/materials/blog/CASES.md) · [Codex·Claude Code 안내](lectures/01-ai-use/materials/blog/TOOLS.md).
+
+강사용 문서는 통합 HTML 참고 자료에도 포함됩니다. 학생 A 제출 뒤 해당 상황을 공개하는 것은 수업 진행 규칙이며, 파일 접근 제한 기능은 아닙니다.
 
 ### Chapter 02 — Git과 경험 기록
 
@@ -74,12 +82,17 @@ lectures/
   manifest.json               단원 순서와 통합 HTML 구성
   01-ai-use/units/             AI 활용법 · 단원별 상세 원고
   01-ai-use/practice.md        챕터 1 강의 후 실습
-  01-ai-use/materials/         챕터 1 실습 준비 자료
+  01-ai-use/instructor-prompts.md 강사용 7개 완성 프롬프트·해설
+  01-ai-use/materials/blog/    공통 발주서·출처·고정 원고·도구 안내
+  01-ai-use/materials/mean-demo/ 강사 계산 오류 시연
   02-git-and-records/units/    Git과 경험 기록 · 단원별 상세 원고
   02-git-and-records/practice.md 챕터 2 강의 후 실습
   02-git-and-records/materials/ 챕터 2 실습 준비 자료
 research/                     PDF 배치 지도 · 교정 · 조사 출처
 scripts/                      HTML 생성 · 문서 검사
+AGENTS.md                     이 프로젝트에서 AI와 일하는 규칙
+STATUS.md / DECISIONS.md       현재 상태 · 결정과 제안
+logs/                         작업별 변경과 검증 기록
 ```
 
 강의 구조는 각 챕터의 `plan.md`, 챕터 종료 후 수행할 활동 전체는 `practice.md`에 있습니다. **현재 상세 강의는 `lecture.html`을 읽습니다.**

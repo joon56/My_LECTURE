@@ -114,6 +114,8 @@ time_ms는 ms, voltage_mv는 mV다.
 - [Building effective agents](https://www.anthropic.com/engineering/building-effective-agents): 도구와 피드백을 사용하는 에이전트 설명.
 - [공식 출처 확인 기록](../../../research/sources.md): 2026-10-03 확인 스냅샷. 본 단원의 카드·평가표는 교육 설계이며 학생 시연 결과는 별도 기록한다.
 
+강의의 측정값·CSV는 개념을 설명하는 시연 예제다. 챕터말 학생 과제는 공통 주제의 블로그 제작이며, CSV 프로그램을 미리 만들 필요가 없다.
+
 ## 챕터말 실습
 
-학생 활동·파일 준비·풀이·채점은 [챕터 1 실습](../practice.md)에 모았다. 챕터 1 강의를 모두 읽은 뒤 진행한다.
+챕터 1 강의를 마친 뒤 [블로그 제작사 실습](../practice.md)을 진행한다. S02의 실제 하위 작업과 S05의 파일·화면 확인으로 모델·호스트·도구의 역할을 구별한다.
