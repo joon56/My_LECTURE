@@ -1,0 +1,12 @@
+node_modules/
+tmp/
+.env
+.env.*
+!.env.example
+*.pdf
+logs/
+AGENTS.md
+STATUS.md
+DECISIONS.md
+guide.md
+templates/

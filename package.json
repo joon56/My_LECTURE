@@ -1,0 +1,17 @@
+{
+  "name": "my-lecture",
+  "version": "1.0.0",
+  "private": true,
+  "description": "공대생을 위한 AI 활용·Git·경험 기록 강의",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build-lecture.mjs",
+    "check": "node scripts/check-lecture.mjs"
+  },
+  "devDependencies": {
+    "marked": "17.0.5"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
