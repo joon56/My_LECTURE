@@ -22,6 +22,8 @@
 
 GitHub의 HTML 파일 화면은 웹사이트 미리보기가 아닙니다. 내려받은 파일을 열어주세요. 본문·검색·목차는 HTML 한 파일에 들어 있습니다. 공개본에는 원본 PDF·작업 로그·프로젝트 지침을 포함하지 않습니다. PDF 연결은 쪽수와 설명으로 남겼습니다. Markdown 링크를 열려면 폴더 구조를 유지하고, 외부 출처를 볼 때는 인터넷을 사용합니다.
 
+**온라인 열람 준비:** GitHub Pages를 활성화하면 `https://joon56.github.io/My_LECTURE/`에서 전체 강의가 열립니다. 현재 저장소에는 진입 파일을 준비했으며, Pages 활성화는 별도 단계입니다. 실습에 필요한 파일은 Code → Download ZIP으로 받거나 저장소를 clone합니다.
+
 ## 무엇을 배우나요?
 
 **챕터 1 강의 → [챕터 1 실습](lectures/01-ai-use/practice.md) → 챕터 2 강의 → [챕터 2 실습](lectures/02-git-and-records/practice.md)**
@@ -51,7 +53,7 @@ AI로 프로그램 과제를 해본 공대생을 대상으로 합니다. 공통 
 
 [공통 프롬프트](lectures/01-ai-use/instructor-prompts.md) 한 개로 총괄이 하위 조사·집필·검토 **3개**의 결과를 연결합니다. 조사 결과→초고→검토 의견→필요한 수정 순서입니다.
 
-새 폴더 하나에 [BRIEF.md](lectures/01-ai-use/materials/blog/BRIEF.md)를 넣고 시작합니다. 결과물은 article.md와 짧은 work.md입니다. 별도 비교·채점·단계별 폴더 없이 강사와 함께 관찰하고 글을 읽으며 마무리합니다. [강사 환경 확인](lectures/01-ai-use/materials/blog/TOOLS.md).
+새 작업 폴더에 [BRIEF.md](lectures/01-ai-use/materials/blog/BRIEF.md)와 agents/의 [조사](lectures/01-ai-use/materials/blog/agents/researcher.md)·[집필](lectures/01-ai-use/materials/blog/agents/writer.md)·[검토](lectures/01-ai-use/materials/blog/agents/reviewer.md) 지침을 넣고 시작합니다. 각 담당이 자기 지침을 읽는 장면과 결과 전달을 연결해 봅니다. 결과물은 article.md와 짧은 work.md입니다. 별도 비교·채점·단계별 폴더 없이 강사와 함께 관찰하고 글을 읽으며 마무리합니다. [강사 환경 확인](lectures/01-ai-use/materials/blog/TOOLS.md).
 
 ### Chapter 02 — Git과 경험 기록
 
@@ -81,7 +83,7 @@ lectures/
   01-ai-use/units/             AI 활용법 · 단원별 상세 원고
   01-ai-use/practice.md        챕터 1 강의 후 실습
   01-ai-use/instructor-prompts.md 함께 입력할 프롬프트 한 개·강사 안내
-  01-ai-use/materials/blog/    공통 입력 BRIEF·강사 환경 안내
+  01-ai-use/materials/blog/    공통 자료 BRIEF·agents/ 역할 지침·강사 환경 안내
   01-ai-use/materials/mean-demo/ 강사 계산 오류 시연
   02-git-and-records/units/    Git과 경험 기록 · 단원별 상세 원고
   02-git-and-records/practice.md 챕터 2 강의 후 실습
@@ -106,6 +108,12 @@ npm run check
 ```
 
 단원 Markdown을 고친 후 HTML을 다시 생성합니다. 단원 추가·순서 변경은 `lectures/manifest.json`에서 합니다. 생성된 HTML의 본문을 직접 고치지 않습니다.
+
+### GitHub Pages 설정 · 저장소 관리자
+
+현재 정적 파일은 브랜치 배포용으로 준비돼 있습니다. Settings → Pages → Source에서 **Deploy from a branch**, 브랜치 **main**, 폴더 **/(root)**를 선택해 저장합니다. 배포 완료 후 웹 주소를 확인합니다. index.html은 lecture.html로 연결하고 .nojekyll은 준비된 정적 파일을 사용하도록 둡니다. 이후 Markdown을 수정할 때는 위 빌드·검사를 거친 HTML도 함께 push합니다.
+
+이 방식은 [GitHub의 브랜치 배포 안내](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)를 따릅니다. 로그인·학생별 진도 저장 기능은 현재 강의에 없습니다.
 
 ## 근거와 현재 범위
 

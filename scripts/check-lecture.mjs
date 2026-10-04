@@ -14,7 +14,7 @@ if (practices.length !== manifest.chapters.length) failures.push('Each chapter m
 for (const practice of practices) {
   if (manifest.appendices.some(entry => entry[2] === practice.file)) failures.push(`Practice duplicated in appendices: ${practice.file}`);
   if (practice.chapter === 'ai') {
-    for (const file of ['BRIEF.md', 'TOOLS.md']) {
+    for (const file of ['BRIEF.md', 'TOOLS.md', 'agents/researcher.md', 'agents/writer.md', 'agents/reviewer.md']) {
       try { await fs.access(path.join(root, path.dirname(practice.file), 'materials/blog', file)); }
       catch { failures.push(`Missing blog input material: ${file}`); }
     }
