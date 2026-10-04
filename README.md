@@ -6,7 +6,9 @@
 
 문제를 정의하고 → AI와 구현하고 → 직접 검증하고 → 나의 경험으로 남깁니다.
 
-[전체 강의](lecture.html) · [단원 목차](lectures/manifest.json) · [PDF 배치 지도](research/report-to-lecture.md) · [진행 상황](VERIFICATION.md)
+**[온라인 강의 바로 보기](https://joon56.github.io/My_LECTURE/)** · [실습 자료 다운로드](https://github.com/joon56/My_LECTURE/archive/refs/heads/main.zip)
+
+[챕터 1 실습](https://joon56.github.io/My_LECTURE/lecture.html#ai-practice) · [챕터 2 실습](https://joon56.github.io/My_LECTURE/lecture.html#git-practice) · [단원 목차](lectures/manifest.json)
 
 **21개 강의 단원 · 챕터별 실습 2개 · 준비 자료와 풀이**
 
@@ -14,15 +16,21 @@
 
 ---
 
-## 먼저 열어보기
+## 바로 시작하기
 
-1. 저장소의 **Code → Download ZIP**으로 내려받아 압축을 풉니다.
-2. **`lecture.html`을 브라우저에서 엽니다.** 설치나 서버 없이 전체 강의를 읽을 수 있습니다.
-3. 목차에서 단원을 선택하거나 검색합니다. **PDF 연결** 상자는 원본 보고서의 활용 위치와 교정 사항입니다.
+**수업과 복습:** [온라인 강의](https://joon56.github.io/My_LECTURE/)를 엽니다. 설치나 다운로드 없이 PC·휴대폰에서 목차와 검색으로 원하는 단원을 찾을 수 있습니다. 수업 순서는 **챕터 1 강의 → 실습 → 챕터 2 강의 → 실습**입니다.
 
-GitHub의 HTML 파일 화면은 웹사이트 미리보기가 아닙니다. 내려받은 파일을 열어주세요. 본문·검색·목차는 HTML 한 파일에 들어 있습니다. 공개본에는 원본 PDF·작업 로그·프로젝트 지침을 포함하지 않습니다. PDF 연결은 쪽수와 설명으로 남겼습니다. Markdown 링크를 열려면 폴더 구조를 유지하고, 외부 출처를 볼 때는 인터넷을 사용합니다.
+**직접 실습:** [저장소 ZIP](https://github.com/joon56/My_LECTURE/archive/refs/heads/main.zip)을 내려받아 압축을 풉니다. GitHub의 Code → Download ZIP도 같습니다. 챕터 1 자료는 `lectures/01-ai-use/materials/blog/`, 공통 요청문은 `lectures/01-ai-use/instructor-prompts.md`에 있습니다. [실습 안내](lectures/01-ai-use/practice.md)에 따라 별도 작업 폴더에 복사하고 본인의 Codex 또는 Claude Code에서 진행합니다.
 
-**온라인 열람 준비:** GitHub Pages를 활성화하면 `https://joon56.github.io/My_LECTURE/`에서 전체 강의가 열립니다. 현재 저장소에는 진입 파일을 준비했으며, Pages 활성화는 별도 단계입니다. 실습에 필요한 파일은 Code → Download ZIP으로 받거나 저장소를 clone합니다.
+**오프라인 열람:** 내려받은 폴더의 `lecture.html`을 브라우저에서 엽니다. 본문·검색·목차는 HTML 한 파일에 들어 있습니다. 공개본에는 원본 PDF·작업 로그·프로젝트 지침을 포함하지 않습니다. PDF 연결은 쪽수와 설명으로 남겼습니다. Markdown 링크를 열려면 폴더 구조를 유지하고, 외부 출처를 볼 때는 인터넷을 사용합니다.
+
+Git을 사용한다면 아래 명령으로 자료를 받을 수 있습니다. 이미 clone했다면 해당 폴더에서 `git pull`로 갱신합니다.
+
+```sh
+git clone https://github.com/joon56/My_LECTURE.git
+```
+
+강의의 **PDF 연결** 상자는 원본 보고서의 활용 위치와 교정 사항입니다. [PDF 배치 지도](research/report-to-lecture.md)에서 전체 대응을 확인할 수 있습니다.
 
 ## 무엇을 배우나요?
 
@@ -109,9 +117,9 @@ npm run check
 
 단원 Markdown을 고친 후 HTML을 다시 생성합니다. 단원 추가·순서 변경은 `lectures/manifest.json`에서 합니다. 생성된 HTML의 본문을 직접 고치지 않습니다.
 
-### GitHub Pages 설정 · 저장소 관리자
+### 웹 강의 갱신 · 저장소 관리자
 
-현재 정적 파일은 브랜치 배포용으로 준비돼 있습니다. Settings → Pages → Source에서 **Deploy from a branch**, 브랜치 **main**, 폴더 **/(root)**를 선택해 저장합니다. 배포 완료 후 웹 주소를 확인합니다. index.html은 lecture.html로 연결하고 .nojekyll은 준비된 정적 파일을 사용하도록 둡니다. 이후 Markdown을 수정할 때는 위 빌드·검사를 거친 HTML도 함께 push합니다.
+웹 강의는 GitHub Pages로 배포합니다. Markdown을 수정한 뒤 위 빌드·검사를 실행하고, 재생성한 HTML도 함께 main에 push합니다. 저장소 Actions의 **pages build and deployment** 성공과 [실제 사이트](https://joon56.github.io/My_LECTURE/)를 확인하면 갱신이 끝납니다. index.html은 lecture.html로 연결하고 .nojekyll은 준비된 정적 파일을 사용하도록 둡니다.
 
 이 방식은 [GitHub의 브랜치 배포 안내](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)를 따릅니다. 로그인·학생별 진도 저장 기능은 현재 강의에 없습니다.
 
